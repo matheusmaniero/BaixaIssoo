@@ -4,8 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import model.twitter.MentionData;
+import model.twitter.TweetObjectParser;
+import model.twitter.TweetReplyToJson;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Json {
 
@@ -18,7 +25,7 @@ public class Json {
         return new ObjectMapper();
 
     }
-    /*
+
 
     public static TweetObjectParser parse (String src){
 
@@ -30,7 +37,7 @@ public class Json {
         }
 
     }
-    */
+
 
     public static MentionData parseMention(String src){
 
@@ -42,7 +49,7 @@ public class Json {
         }
 
     }
-    /*
+
 
     public static String replyToJson(TweetReplyToJson tweetReplyToJson){
         try {
@@ -52,7 +59,7 @@ public class Json {
             throw new RuntimeException(e);
         }
     }
-*/
+
     public static String getField(String src, String field){
 
         try {
@@ -63,5 +70,22 @@ public class Json {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static Map<String,String> jsonToMap(String src){
+        Map<String,String> ans = new HashMap<>();
+        try {
+            Map<String,Object> map = objectMapper.readValue(src,Map.class);
+            ArrayList<LinkedHashMap<String,String>> list = (ArrayList<LinkedHashMap<String, String>>) map.get("data");
+            for (LinkedHashMap<String,String> lhm : list){
+                ans.put(lhm.get("id"),lhm.get("username"));
+            }
+
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return ans;
     }
 }
