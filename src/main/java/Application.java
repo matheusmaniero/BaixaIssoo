@@ -1,3 +1,6 @@
+import model.dao.DaoFactory;
+import model.dao.UserDao;
+import model.entities.User;
 import model.twitter.*;
 import services.authentication.OAuthAuthenticationManager;
 
@@ -11,7 +14,18 @@ public class Application {
         Queue<MentionData> mentionsQueue = MentionsGetter.getMentions(token);
         Queue<TweetObjectToReply> toans = ReplyGenerator.getVideoUrl(mentionsQueue,token);
         GetUsernames.getUsernames(toans,token);
-        System.out.println(toans);
+        UserDao dao = DaoFactory.createUserDao();
+        while(!toans.isEmpty()){
+            TweetObjectToReply to = toans.poll();
+            User us = new User(to.getUserScreenName(),to.getUserToReplyId());
+            User userFromDB = dao.findById(us.getTwitterUserId());
+            if (userFromDB == null){
+                dao.insert(us);
+            }
+
+        }
+
+
 
 
 

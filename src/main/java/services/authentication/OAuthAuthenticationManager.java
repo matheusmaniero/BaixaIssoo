@@ -1,5 +1,6 @@
 package services.authentication;
 
+import db.DB;
 import model.dao.CredentialsDao;
 import model.dao.DaoFactory;
 import model.entities.Credentials;

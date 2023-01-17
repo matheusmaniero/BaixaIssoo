@@ -77,9 +77,12 @@ public class Json {
         try {
             Map<String,Object> map = objectMapper.readValue(src,Map.class);
             ArrayList<LinkedHashMap<String,String>> list = (ArrayList<LinkedHashMap<String, String>>) map.get("data");
-            for (LinkedHashMap<String,String> lhm : list){
-                ans.put(lhm.get("id"),lhm.get("username"));
+            if (list != null){
+                for (LinkedHashMap<String,String> lhm : list){
+                    ans.put(lhm.get("id"),lhm.get("username"));
+                }
             }
+
 
 
         } catch (JsonProcessingException e) {

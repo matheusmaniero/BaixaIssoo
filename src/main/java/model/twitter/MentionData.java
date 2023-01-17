@@ -9,7 +9,10 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.Queue;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class MentionData {
@@ -47,7 +50,7 @@ public class MentionData {
         for (int i = 0; i<result.size(); i++){
             ArrayList<Map<String,Object>> referenced = (ArrayList<Map<String, Object>>) result.get(i).get("referenced_tweets");
             String postIdToReply = (String) result.get(i).get("id");
-            String authorId = (String) result.get(i).get("author_id");
+             String authorId = (String) result.get(i).get("author_id");
             String postParentId = (String) referenced.get(0).get("id");
             String stringCreatedAt = (String) result.get(i).get("created_at");
             if (i == 0){

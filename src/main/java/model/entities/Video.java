@@ -3,18 +3,18 @@ package model.entities;
 public class Video {
 
     private String videoUrl;
-    private String shortUrl;
+    private String createdAt;
 
-    public Video (String videoUrl, String shortUrl){
+    public Video (String videoUrl, String createdAt){
         this.videoUrl = videoUrl;
-        this.shortUrl = shortUrl;
+        this.createdAt = createdAt;
     }
 
     public String getVideoUrl() {
         return videoUrl;
     }
 
-    public String getShortUrl() {
-        return shortUrl;
+    public String getCreatedAt() {
+        return createdAt;
     }
 }
