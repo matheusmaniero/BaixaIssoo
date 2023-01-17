@@ -3,6 +3,7 @@ package utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import model.twitter.MentionData;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,6 +30,7 @@ public class Json {
         }
 
     }
+    */
 
     public static MentionData parseMention(String src){
 
@@ -40,6 +42,7 @@ public class Json {
         }
 
     }
+    /*
 
     public static String replyToJson(TweetReplyToJson tweetReplyToJson){
         try {
