@@ -3,6 +3,7 @@ package model.dao.impl;
 import db.DB;
 import model.dao.UserDao;
 import model.entities.User;
+import model.entities.Video;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,7 +20,7 @@ public class UserDaoJDBC implements UserDao {
 
 
     @Override
-    public void insert(User obj) {
+    public void insertNewUser(User obj) {
         PreparedStatement st = null;
 
         try {
@@ -27,7 +28,7 @@ public class UserDaoJDBC implements UserDao {
                     "(twitter_user_id, twitter_screen_name) "+
                     "VALUES "+"(?, ?)");
 
-            st.setString(1,obj.getTwitterUserId());
+            st.setLong(1,obj.getTwitterUserId());
             st.setString(2,obj.getScreenName());
             st.executeUpdate();
 
@@ -40,7 +41,7 @@ public class UserDaoJDBC implements UserDao {
     }
 
     @Override
-    public User findById(String twitterUserId) {
+    public User userExists(Long twitterUserId) {
         PreparedStatement st = null;
         ResultSet rs = null;
 
@@ -49,12 +50,12 @@ public class UserDaoJDBC implements UserDao {
             st = conn.prepareStatement("SELECT twitter_user_id, twitter_screen_name "+
                     "FROM users "+"WHERE users.twitter_user_id = ?");
 
-            st.setString(1,twitterUserId);
+            st.setLong(1,twitterUserId);
             rs = st.executeQuery();
 
             if (rs.next()){
                 User obj = new User();
-                obj.setTwitterUserId(rs.getString("twitter_user_id"));
+                obj.setTwitterUserId(rs.getLong("twitter_user_id"));
                 obj.setScreenName(rs.getString("twitter_screen_name"));
                 return obj;
 
@@ -68,5 +69,60 @@ public class UserDaoJDBC implements UserDao {
         return null;
 
 
+    }
+
+    @Override
+    public void insertVideo(Video video) {
+
+            PreparedStatement st = null;
+
+            try {
+                st = conn.prepareStatement("INSERT INTO videos "+"(video_link, twitter_user_id, created_at) "+
+                        "VALUES "+"(?, ?, ?)");
+                st.setString(1,video.getVideoUrl());
+                st.setLong(2,video.getOwnerId());
+                st.setLong(3,video.getCreatedAt());
+
+                st.executeUpdate();
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }finally {
+                DB.closeStatement(st);
+            }
+
+    }
+      
+
+    @Override
+    public User findById(Long twitterId) {
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            st = conn.prepareStatement("SELECT videos.video_link, videos.created_at, users.twitter_user_id, users.twitter_screen_name FROM videos INNER JOIN users ON videos.twitter_user_id=users.twitter_user_id WHERE users.twitter_user_id = ?");
+            st.setLong(1, twitterId);
+            rs = st.executeQuery();
+            User obj = new User();
+
+           if (rs.next()){
+               obj.setScreenName(rs.getString("twitter_screen_name"));
+               obj.setTwitterUserId(rs.getLong("twitter_user_id"));
+               obj.getVideos().add(new Video(rs.getString("video_link"),rs.getLong("created_at"),rs.getLong("twitter_user_id")));
+               while (rs.next()){
+                   obj.getVideos().add(new Video(rs.getString("video_link"),rs.getLong("created_at"),rs.getLong("twitter_user_id")));
+               }
+               return obj;
+
+           }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
+
+        return null;
     }
 }

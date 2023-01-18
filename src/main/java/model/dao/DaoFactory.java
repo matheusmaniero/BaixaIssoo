@@ -14,4 +14,6 @@ public class DaoFactory {
     public static UserDao createUserDao(){
         return new UserDaoJDBC(DB.getConnection());
     }
+
+
 }

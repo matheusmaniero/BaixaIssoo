@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private String twitterUserId;
+    private Long twitterUserId;
     private String screenName;
     private List<Video> videos;
 
     public User (){
-
+        this.videos = new ArrayList<>();
     }
-    public User (String screenName, String twitterUserId){
+    public User (String screenName, Long twitterUserId){
         this.screenName = screenName;
         this.twitterUserId = twitterUserId;
         this.videos = new ArrayList<>();
     }
 
-    public String getTwitterUserId() {
+    public Long getTwitterUserId() {
         return twitterUserId;
     }
 
-    public void setTwitterUserId(String twitterUserId) {
+    public void setTwitterUserId(Long twitterUserId) {
         this.twitterUserId = twitterUserId;
     }
 
