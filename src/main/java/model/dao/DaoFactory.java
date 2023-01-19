@@ -2,6 +2,7 @@ package model.dao;
 
 import db.DB;
 import model.dao.impl.CredentialsDaoJDBC;
+import model.dao.impl.DBInsertionControlJDBC;
 import model.dao.impl.UserDaoJDBC;
 
 public class DaoFactory {
@@ -13,6 +14,10 @@ public class DaoFactory {
 
     public static UserDao createUserDao(){
         return new UserDaoJDBC(DB.getConnection());
+    }
+
+    public static DBInsertionControlDao createDbControlDao(){
+        return new DBInsertionControlJDBC(DB.getConnection());
     }
 
 

@@ -11,6 +11,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.time.ZonedDateTime;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -27,6 +28,7 @@ public class ReplyGenerator {
             String postIdParentId = mentionData.getPostParentId();
             String postIdToReply = mentionData.getPostIdToReply();
             String authorId = mentionData.getAuthorId();
+            ZonedDateTime mentionDate = mentionData.getMentionDate();
             String URL_GET_PATH = "https://api.twitter.com/2/tweets/"+postIdParentId+"?tweet.fields=attachments&expansions=attachments.media_keys&media.fields=variants";
 
 
@@ -45,7 +47,7 @@ public class ReplyGenerator {
 
                 TweetObjectParser tweetToReply = Json.parse(response.body());
 
-                tweetsToReply.add(new TweetObjectToReply(postIdToReply,authorId,tweetToReply.getVideoUrl()));
+                tweetsToReply.add(new TweetObjectToReply(postIdToReply,authorId,tweetToReply.getVideoUrl(),mentionDate));
 
             } catch (URISyntaxException e) {
                 logger.error(e.getMessage());

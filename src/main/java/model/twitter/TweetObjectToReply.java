@@ -1,18 +1,21 @@
 package model.twitter;
 
+import java.time.ZonedDateTime;
+
 public class TweetObjectToReply {
 
     private String postIdToReply;
     private String userToReplyId;
     private String videoUrl;
     private String userScreenName;
-    private String shortUrl;
+    private ZonedDateTime mentionDate;
 
 
-    public TweetObjectToReply(String postIdToReply, String userToReplyId, String videoUrl) {
+    public TweetObjectToReply(String postIdToReply, String userToReplyId, String videoUrl, ZonedDateTime mentionDate) {
         this.postIdToReply = postIdToReply;
         this.userToReplyId = userToReplyId;
         this.videoUrl = videoUrl;
+        this.mentionDate = mentionDate;
     }
 
     public String getPostIdToReply() {
@@ -35,11 +38,19 @@ public class TweetObjectToReply {
         this.userScreenName = userScreenName;
     }
 
-    public String getShortUrl() {
-        return shortUrl;
+    public void setPostIdToReply(String postIdToReply) {
+        this.postIdToReply = postIdToReply;
     }
 
-    public void setShortUrl(String shortUrl) {
-        this.shortUrl = shortUrl;
+    public void setUserToReplyId(String userToReplyId) {
+        this.userToReplyId = userToReplyId;
+    }
+
+    public ZonedDateTime getMentionDate() {
+        return mentionDate;
+    }
+
+    public void setMentionDate(ZonedDateTime mentionDate) {
+        this.mentionDate = mentionDate;
     }
 }

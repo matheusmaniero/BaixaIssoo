@@ -92,7 +92,7 @@ public class UserDaoJDBC implements UserDao {
             }
 
     }
-      
+
 
     @Override
     public User findById(Long twitterId) {
@@ -124,5 +124,31 @@ public class UserDaoJDBC implements UserDao {
         }
 
         return null;
+    }
+
+    @Override
+    public Video getLastVideo() {
+
+        PreparedStatement st = null;
+        ResultSet rs = null;
+
+        try {
+            st = conn.prepareStatement("SELECT twitter_user_id, video_link, created_at FROM videos ORDER BY created_at DESC LIMIT 1");
+            rs = st.executeQuery();
+            if (rs.next()){
+                Video vid = new Video(rs.getString("video_link"),rs.getLong("created_at"),rs.getLong("twitter_user_id"));
+                return vid;
+            }
+            return null;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }finally {
+            DB.closeResultSet(rs);
+            DB.closeStatement(st);
+        }
+
+
     }
 }
