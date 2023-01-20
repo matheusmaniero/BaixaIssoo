@@ -3,6 +3,8 @@ package model.dao.impl;
 import db.DB;
 import model.dao.CredentialsDao;
 import model.entities.Credentials;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CredentialsDaoJDBC implements CredentialsDao {
+
+    private static Logger logger = LogManager.getLogger(Credentials.class);
 
     private Connection conn;
 
@@ -57,6 +61,7 @@ public class CredentialsDaoJDBC implements CredentialsDao {
             }
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
 
         }finally {

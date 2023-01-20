@@ -22,8 +22,8 @@ public class PostReplier {
         int numberOfPosts = 0;
 
         final String URL_POST_REPLY = "https://api.twitter.com/2/tweets";
-        String[] msgs = {"As fast as possible: Here is your link -> ","You are welcome =) Here is your link -> ","How are you? = )Here is your link -> ",
-                "You called me?! =) Here is your link -> "};
+        String[] msgs = {"Vim o mais rápido que pude! Segura seu link aí ->  ","Eu ouvi meu nome?! :P Aqui está seu link -> "," Tá na mão! -> ",
+                "Aqui está -> "};
 
         while(!queueToReply.isEmpty()){
             Random rand = new Random();

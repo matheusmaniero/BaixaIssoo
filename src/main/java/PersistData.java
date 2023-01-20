@@ -19,6 +19,7 @@ public class PersistData {
             if (i == 0){
                 Long lastInsertedTimestamp = controlDao.getLastInsertionTimeStamp();
                 if (lastInsertedTimestamp == null ){
+
                     throw new RuntimeException("LAST INSERTED TIMESTAMP IN DB IS NULL");
                 }
                 Instant lastInsertedInstant = Instant.ofEpochMilli(lastInsertedTimestamp);

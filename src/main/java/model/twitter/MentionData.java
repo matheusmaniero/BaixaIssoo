@@ -96,7 +96,6 @@ public class MentionData {
              BufferedReader reader = new BufferedReader(streamReader)){
 
             String dateString = reader.readLine();
-            System.out.println(dateString);
 
 
             this.lastPostDate = ZonedDateTime.parse(dateString);

@@ -2,6 +2,8 @@ package model.dao.impl;
 
 import db.DB;
 import model.dao.DBInsertionControlDao;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DBInsertionControlJDBC implements DBInsertionControlDao {
+
+    private static Logger logger = LogManager.getLogger(DBInsertionControlJDBC.class);
 
     private Connection conn;
 
@@ -29,6 +33,7 @@ public class DBInsertionControlJDBC implements DBInsertionControlDao {
             st.executeUpdate();
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }finally {
             DB.closeStatement(st);
@@ -53,6 +58,7 @@ public class DBInsertionControlJDBC implements DBInsertionControlDao {
 
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }finally {
             DB.closeResultSet(rs);
@@ -75,6 +81,7 @@ public class DBInsertionControlJDBC implements DBInsertionControlDao {
             st.executeUpdate();
 
         } catch (SQLException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }finally {
             DB.closeStatement(st);

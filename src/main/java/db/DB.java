@@ -1,5 +1,9 @@
 package db;
 
+import model.dao.impl.UserDaoJDBC;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -8,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DB {
+    private static Logger logger = LogManager.getLogger(DB.class);
 
     private static Connection conn = null;
 
@@ -22,6 +27,7 @@ public class DB {
                 conn = DriverManager.getConnection(url,props);
 
             } catch (SQLException e) {
+                logger.error(e);
                 throw new RuntimeException(e);
             }
         }
@@ -33,6 +39,7 @@ public class DB {
             try {
                 conn.close();
             } catch (SQLException e) {
+                logger.error(e);
                 throw new RuntimeException(e);
             }
         }
@@ -55,6 +62,7 @@ public class DB {
             return props;
 
         } catch (IOException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
 
@@ -65,6 +73,7 @@ public class DB {
             try {
                 st.close();
             } catch (SQLException e) {
+                logger.error(e);
                 throw new RuntimeException(e);
             }
         }
@@ -75,6 +84,7 @@ public class DB {
             try {
                 rs.close();
             } catch (SQLException e) {
+                logger.error(e);
                 throw new RuntimeException(e);
             }
         }

@@ -1,5 +1,7 @@
 package model.twitter;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import utils.Json;
 
 import java.io.IOException;
@@ -9,9 +11,12 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
-import java.util.*;
+import java.util.Map;
+import java.util.Queue;
 
 public class GetUsernames {
+
+    private static Logger logger = LogManager.getLogger(GetUsernames.class);
 
     public static void getUsernames(Queue<TweetObjectToReply> queue, String accessToken){
 
@@ -21,9 +26,7 @@ public class GetUsernames {
         for (TweetObjectToReply to : queue){
             to.setUserScreenName(userNamesById.get(to.getUserToReplyId()));
         }
-
     }
-
     private static String getUsersIds(Queue<TweetObjectToReply> queue) {
 
         StringBuilder sb = new StringBuilder();
@@ -39,7 +42,6 @@ public class GetUsernames {
         return str;
 
     }
-
 
     private static Map<String,String> makeGetUsernames(String userIds, String accessToken){
 
@@ -59,19 +61,17 @@ public class GetUsernames {
 
             Map<String,String> map = Json.jsonToMap(response.body());
 
-
             return map;
 
-
-
-
         } catch (URISyntaxException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         } catch (IOException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
+            logger.error(e);
             throw new RuntimeException(e);
         }
-
     }
 }
