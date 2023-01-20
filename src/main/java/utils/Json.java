@@ -44,7 +44,7 @@ public class Json {
         try {
             return objectMapper.readValue(src, MentionData.class);
         } catch (JsonProcessingException e) {
-            logger.error(e.getMessage());
+
             throw new RuntimeException(e);
         }
 
@@ -82,7 +82,6 @@ public class Json {
                     ans.put(lhm.get("id"),lhm.get("username"));
                 }
             }
-
 
 
         } catch (JsonProcessingException e) {

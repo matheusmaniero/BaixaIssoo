@@ -2,11 +2,11 @@ package model.twitter;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import model.dao.DaoFactory;
+import model.dao.LastRequestDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -45,7 +45,8 @@ public class MentionData {
 
     @JsonProperty("data")
     private void unpackData(ArrayList<Map<String,Object>> result) throws ParseException {
-        getLastPostDate();
+        LastRequestDao dao = DaoFactory.createLastRequestDao();
+        getLastPostDate(dao);
 
         for (int i = 0; i<result.size(); i++){
             ArrayList<Map<String,Object>> referenced = (ArrayList<Map<String, Object>>) result.get(i).get("referenced_tweets");
@@ -65,47 +66,16 @@ public class MentionData {
             }
 
         }
-        updateLastPostdate();
+        updateLastPostdate(dao);
     }
 
-    private void updateLastPostdate() {
 
-        ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File (classLoader.getResource("latestDate.dat").getFile());
-        String str = this.lastDateToSave;
-
-        try ( FileOutputStream fop = new FileOutputStream(file) ){
-
-            byte[] strBytes = str.getBytes();
-            fop.write(strBytes);
-            fop.flush();
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+    private void updateLastPostdate(LastRequestDao dao) {
+        dao.update(lastDateToSave);
     }
-
-    private void getLastPostDate() {
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream("latestDate.dat");
-
-        try (InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-             BufferedReader reader = new BufferedReader(streamReader)){
-
-            String dateString = reader.readLine();
-
-
-            this.lastPostDate = ZonedDateTime.parse(dateString);
-
-
-        } catch (IOException e) {
-            logger.error(e);
-            throw new RuntimeException(e);
-        }
-
+    private void getLastPostDate(LastRequestDao dao) {
+        String dateString = dao.getLastRequest();
+        this.lastPostDate = ZonedDateTime.parse(dateString);
     }
 
 

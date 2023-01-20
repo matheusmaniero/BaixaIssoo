@@ -1,11 +1,10 @@
 package db;
 
-import model.dao.impl.UserDaoJDBC;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -48,9 +47,10 @@ public class DB {
     private static Properties loadProperties() {
 
         try {
-            FileInputStream fs = new FileInputStream("src/db.properties");
+
+            InputStream in = DB.class.getClassLoader().getResourceAsStream("db.properties");
             Properties props = new Properties();
-            props.load(fs);
+            props.load(in);
 
             for (Object prop : props.keySet()){
                 String str = (String) props.get(prop);
