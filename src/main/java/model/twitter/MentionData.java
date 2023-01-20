@@ -47,15 +47,20 @@ public class MentionData {
     private void unpackData(ArrayList<Map<String,Object>> result) throws ParseException {
         LastRequestDao dao = DaoFactory.createLastRequestDao();
         getLastPostDate(dao);
+        boolean saveLastDate = true;
 
         for (int i = 0; i<result.size(); i++){
+            if (!result.get(i).containsKey("referenced_tweets")){
+                continue;
+            }
             ArrayList<Map<String,Object>> referenced = (ArrayList<Map<String, Object>>) result.get(i).get("referenced_tweets");
             String postIdToReply = (String) result.get(i).get("id");
              String authorId = (String) result.get(i).get("author_id");
             String postParentId = (String) referenced.get(0).get("id");
             String stringCreatedAt = (String) result.get(i).get("created_at");
-            if (i == 0){
+            if (saveLastDate){
                 this.lastDateToSave = stringCreatedAt;
+                saveLastDate=false;
             }
             ZonedDateTime zonedDateTime = ZonedDateTime.parse(stringCreatedAt);
             if (zonedDateTime.isAfter(this.lastPostDate)){
