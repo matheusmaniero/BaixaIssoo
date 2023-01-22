@@ -19,6 +19,9 @@ public class TweetObjectParser {
     private void unpackIncludes(Map<String,Object> includes){
         ArrayList<Map<String,Object>> result = (ArrayList<Map<String, Object>>) includes.get("media");
         ArrayList<Map<String,Object>> variants = (ArrayList<Map<String, Object>>) result.get(0).get("variants");
+        if (variants == null){
+            return;
+        }
         Integer bitrate = 0;
         int iMaxBitRate = 0;
         for (int i = 0; i<variants.size(); i++){

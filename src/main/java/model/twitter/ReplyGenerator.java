@@ -47,7 +47,10 @@ public class ReplyGenerator {
 
                 TweetObjectParser tweetToReply = Json.parse(response.body());
 
-                tweetsToReply.add(new TweetObjectToReply(postIdToReply,authorId,tweetToReply.getVideoUrl(),mentionDate));
+                if (tweetToReply.getVideoUrl() != null){
+
+                    tweetsToReply.add(new TweetObjectToReply(postIdToReply,authorId,tweetToReply.getVideoUrl(),mentionDate));
+                }
 
             } catch (URISyntaxException e) {
                 logger.error(e.getMessage());
