@@ -32,6 +32,11 @@ public class OAuthAuthenticationManager {
             dao.update(credentials);
         }
 
+        if (credentials.getAccessToken().isBlank() || credentials.getRefreshToken().isBlank()){
+            logger.error("Access Token or Refresh Token is Blank!");
+            throw new RuntimeException("Access Token or Refresh Token is Blank!");
+        }
+
         return credentials.getAccessToken();
 
     }
