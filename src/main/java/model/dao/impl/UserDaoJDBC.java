@@ -33,7 +33,7 @@ public class UserDaoJDBC implements UserDao {
                     "VALUES "+"(?, ?)");
 
             st.setLong(1,obj.getTwitterUserId());
-            st.setString(2,obj.getScreenName());
+            st.setString(2,obj.getScreenName().toLowerCase().trim());
             st.executeUpdate();
 
         } catch (SQLException e) {
