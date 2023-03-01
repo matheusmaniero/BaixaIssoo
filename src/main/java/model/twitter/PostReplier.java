@@ -22,20 +22,18 @@ public class PostReplier {
         int numberOfPosts = 0;
 
         final String URL_POST_REPLY = "https://api.twitter.com/2/tweets";
-        String[] msgs = {"Vim o mais rápido que pude! Segura seu link aí ->  ","Eu ouvi meu nome?! :P Aqui está seu link -> "," Tá na mão! -> ",
-                "Aqui está -> "};
+        final String urlSite = "http://baixaissoo.up.railway.app/";
+        final String standardMessage = "Juntei este vídeo com os outros que você já me pediu, estão aqui -> ";
 
         while(!queueToReply.isEmpty()){
-            Random rand = new Random();
-            int randomNum = rand.nextInt(4);
-            String msg = msgs[randomNum];
 
             TweetObjectToReply to = queueToReply.poll();
+
 
             if (to.getVideoUrl() == null || to.getPostIdToReply() == null){
                 continue;
             }
-            TweetReplyToJson trj = new TweetReplyToJson(msg+to.getVideoUrl(),to.getPostIdToReply());
+            TweetReplyToJson trj = new TweetReplyToJson(standardMessage+urlSite+to.getUserScreenName(),to.getPostIdToReply());
             String replyJson = Json.replyToJson(trj);
 
             try {
