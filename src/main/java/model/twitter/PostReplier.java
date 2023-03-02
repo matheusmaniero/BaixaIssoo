@@ -12,7 +12,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Queue;
-import java.util.Random;
 
 public class PostReplier {
 
@@ -22,7 +21,7 @@ public class PostReplier {
         int numberOfPosts = 0;
 
         final String URL_POST_REPLY = "https://api.twitter.com/2/tweets";
-        final String urlSite = "http://baixaissoo.up.railway.app/";
+        final String urlSite = "http://baixaissoo.up.railway.app/u?user=";
         final String standardMessage = "Juntei este vídeo com os outros que você já me pediu, estão aqui -> ";
 
         while(!queueToReply.isEmpty()){

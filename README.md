@@ -6,7 +6,7 @@ To manage database operations i used DAO's.
 
 Also, i developed an website to show all the orders attended by this bot.
 You can look the other repository here: https://github.com/matheusmaniero/BaixaIssooWebSite
-Website: https://baixaissoowebsite-production.up.railway.app/
+Website: https://baixaissoo.up.railway.app/
 
 Both, bot and website is running on Railway.
 
